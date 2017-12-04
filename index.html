@@ -11769,7 +11769,7 @@ div#notebook {
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[109]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">Input</span><span class="p">(</span><span class="n">day</span><span class="p">):</span>
@@ -11811,7 +11811,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[110]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">parseDay1</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
@@ -11892,7 +11892,7 @@ Now, instead of considering the next digit, it wants you to consider the digit h
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[111]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">parseDay1</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
@@ -11987,7 +11987,7 @@ In this example, the spreadsheet's checksum would be 8 + 4 + 6 = 18.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[112]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">parseDay2</span><span class="p">(</span><span class="n">rawOpenFile</span><span class="p">):</span>
@@ -12062,7 +12062,7 @@ In this example, the spreadsheet's checksum would be 8 + 4 + 6 = 18.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[113]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">findRowChecksumValue</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
@@ -12111,6 +12111,295 @@ In this example, the spreadsheet's checksum would be 8 + 4 + 6 = 18.</p>
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>221
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Day-3">Day 3<a class="anchor-link" href="#Day-3">&#182;</a></h1><p>Let's see if there's a formula for figuring out where a number will fall so we don't have to just build out an arbitrary grid.</p>
+<p>So the center most square (just the number 1) has 2^0 numbers
+The next outer square (2-9) has 2^3 numbers (8)
+The next has 16 (2^4)
+The next has just 24 (doesn't fall nicely into our pattern)</p>
+<p>ok try a differnt pattern
+Center square has 1
+Square 2 has 8 (3x3 square) for 9 total numbers
+Square 3 has 16 (5x5 square) for 25 total numbers
+Square 4 has 24 (7x7) for 49 total numbers
+Square 5 has 32 (9x9) for 81 total numbers</p>
+<p>Ok this is promising.  So we should be able to figure out which odd square (x^2) the given number falls into and from there figure out how to walk it back to the center.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="k">def</span> <span class="nf">isOdd</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+  <span class="k">return</span> <span class="n">num</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">findOddSquare</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+  <span class="n">base</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">num</span><span class="p">))</span>
+  <span class="k">if</span> <span class="n">base</span><span class="o">.</span><span class="n">is_integer</span><span class="p">():</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">isOdd</span><span class="p">(</span><span class="n">base</span><span class="p">):</span>
+      <span class="n">base</span> <span class="o">=</span> <span class="n">base</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">isOdd</span><span class="p">(</span><span class="n">base</span><span class="p">):</span>
+      <span class="n">base</span> <span class="o">=</span> <span class="n">base</span> <span class="o">+</span> <span class="mi">1</span>
+  
+  <span class="k">return</span> <span class="n">base</span>
+
+
+<span class="k">def</span> <span class="nf">findStepsToCenterRow</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+  <span class="n">square</span> <span class="o">=</span> <span class="n">findOddSquare</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+  <span class="n">offsetToCenter</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">square</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>  
+  <span class="n">startNumber</span> <span class="o">=</span> <span class="p">(</span><span class="n">square</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">square</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">offsetToCenter</span>
+
+  <span class="n">centerToCenter</span> <span class="o">=</span> <span class="p">(</span><span class="n">square</span> <span class="o">+</span> <span class="n">square</span> <span class="o">+</span> <span class="p">(</span><span class="n">square</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">square</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="mi">4</span>
+  <span class="n">maxStepsToCenter</span> <span class="o">=</span> <span class="n">centerToCenter</span> <span class="o">/</span> <span class="mi">2</span>
+    
+  <span class="n">stepsToCenter</span> <span class="o">=</span> <span class="p">(</span><span class="n">num</span> <span class="o">-</span> <span class="n">startNumber</span><span class="p">)</span> <span class="o">%</span> <span class="n">centerToCenter</span>
+  <span class="k">if</span> <span class="n">stepsToCenter</span> <span class="o">&gt;</span> <span class="n">maxStepsToCenter</span><span class="p">:</span>
+    <span class="n">stepsToCenter</span> <span class="o">=</span> <span class="n">stepsToCenter</span> <span class="o">-</span> <span class="n">maxStepsToCenter</span>
+ 
+  <span class="k">return</span> <span class="n">stepsToCenter</span>
+
+<span class="k">def</span> <span class="nf">findTotalStepsToCenter</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+  <span class="n">square</span> <span class="o">=</span> <span class="n">findOddSquare</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">findStepsToCenterRow</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">square</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="k">assert</span> <span class="n">findOddSquare</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+<span class="k">assert</span> <span class="n">findOddSquare</span><span class="p">(</span><span class="mi">49</span><span class="p">)</span> <span class="o">==</span> <span class="mi">7</span>
+<span class="k">assert</span> <span class="n">findOddSquare</span><span class="p">(</span><span class="mi">36</span><span class="p">)</span> <span class="o">==</span> <span class="mi">7</span>
+<span class="k">assert</span> <span class="n">findOddSquare</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="o">==</span> <span class="mi">9</span>
+
+<span class="k">assert</span> <span class="n">findStepsToCenterRow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="k">assert</span> <span class="n">findStepsToCenterRow</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>  
+<span class="k">assert</span> <span class="n">findStepsToCenterRow</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+<span class="k">assert</span> <span class="n">findStepsToCenterRow</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+<span class="k">assert</span> <span class="n">findStepsToCenterRow</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+<span class="k">assert</span> <span class="n">findStepsToCenterRow</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="k">assert</span> <span class="n">findStepsToCenterRow</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+
+<span class="k">assert</span> <span class="n">findTotalStepsToCenter</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+<span class="k">assert</span> <span class="n">findTotalStepsToCenter</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+<span class="k">assert</span> <span class="n">findTotalStepsToCenter</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span> <span class="o">==</span> <span class="mi">31</span>
+
+<span class="k">print</span> <span class="n">findTotalStepsToCenter</span><span class="p">(</span><span class="mi">347991</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>480
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Part 2</strong></p>
+<p>Well, part one looks to be completely useless for this part. Let's see if we can't figure out a similar pattern for building the grid out.</p>
+<p>The key part is figuring out which other numbers each square touches.</p>
+<p>I think at most, it can only be touching 4 cells that are already created.</p>
+<p>It always touches it's previous number.  (So like, cell 5 will always be touching cell 4.</p>
+<p>Once you hit 5x5 if it's the first number, it touches 2, or if it's a corner it touches 2, or right before a corner it touches 3, otherwise it touches 4.</p>
+<p>If not the first number in the square, then on the right side of the square, the horizontal step into the adjacent spot on the interior ring is (nth odd - 2) * 8 + 1</p>
+<p>so the 3x3 ring is the 2nd odd and takes a step back of 1
+the 5x5 ring is the 3rd odd and takes a step back of 9</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[82]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">stepBackSize</span><span class="p">(</span><span class="n">ringDimension</span><span class="p">):</span>
+  <span class="k">return</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">ringDimension</span> <span class="o">/</span> <span class="mi">2</span> <span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">8</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">firstNumberForSquare</span><span class="p">(</span><span class="n">square</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">square</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">square</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">isCorner</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="n">square</span> <span class="o">=</span> <span class="n">findOddSquare</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">firstNumberForSquare</span><span class="p">(</span><span class="n">square</span><span class="p">)</span>
+    <span class="n">cornerbreaks</span> <span class="o">=</span> <span class="n">square</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">corner</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">)</span> <span class="o">/</span> <span class="n">cornerbreaks</span>
+
+    <span class="k">if</span> <span class="n">corner</span><span class="o">.</span><span class="n">is_integer</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">corner</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">False</span>
+
+<span class="k">def</span> <span class="nf">cornersPassed</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="n">square</span> <span class="o">=</span> <span class="n">findOddSquare</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">firstNumberForSquare</span><span class="p">(</span><span class="n">square</span><span class="p">)</span>
+    <span class="n">cornerbreaks</span> <span class="o">=</span> <span class="n">square</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="n">number</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="n">cornerbreaks</span><span class="p">)</span>
+    
+
+<span class="k">def</span> <span class="nf">getCellsTouched</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+  <span class="n">square</span> <span class="o">=</span> <span class="n">findOddSquare</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+  <span class="n">baseStepBackSize</span> <span class="o">=</span> <span class="n">stepBackSize</span><span class="p">(</span><span class="n">square</span><span class="p">)</span>
+  <span class="n">numCornersPassed</span> <span class="o">=</span> <span class="n">cornersPassed</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+  <span class="n">stepModifier</span> <span class="o">=</span> <span class="n">numCornersPassed</span> <span class="o">*</span> <span class="mi">2</span>
+  <span class="n">modifiedStepBack</span> <span class="o">=</span> <span class="n">baseStepBackSize</span> <span class="o">+</span> <span class="n">stepModifier</span>
+  <span class="n">squareFirstNumber</span> <span class="o">=</span> <span class="n">firstNumberForSquare</span><span class="p">(</span><span class="n">square</span><span class="p">)</span>
+  
+    
+  <span class="n">isOnCorner</span> <span class="o">=</span> <span class="n">isCorner</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>  
+  <span class="n">isBeforeCorner</span> <span class="o">=</span> <span class="n">isCorner</span><span class="p">(</span><span class="n">number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="n">isAfterCorner</span> <span class="o">=</span> <span class="n">isCorner</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+  
+  <span class="n">cells</span> <span class="o">=</span> <span class="p">[</span><span class="n">number</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="c1">#will always touch its previous cell</span>
+    
+  <span class="c1"># If it&#39;s the first number of a square, then it also touches the first number of the previous cell</span>
+  <span class="k">if</span> <span class="n">number</span> <span class="o">==</span> <span class="n">squareFirstNumber</span><span class="p">:</span>
+    <span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">firstNumberForSquare</span><span class="p">(</span><span class="n">square</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">cells</span>
+  <span class="k">elif</span> <span class="n">number</span> <span class="o">==</span> <span class="p">(</span><span class="n">squareFirstNumber</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="n">baseStepBackSize</span><span class="p">)</span>
+    <span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="n">baseStepBackSize</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cells</span>
+  <span class="k">elif</span> <span class="n">isBeforeCorner</span> <span class="o">!=</span> <span class="bp">False</span> <span class="ow">and</span> <span class="n">numCornersPassed</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="n">modifiedStepBack</span><span class="p">)</span>
+    <span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="n">modifiedStepBack</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cells</span>
+  <span class="k">elif</span> <span class="n">isOnCorner</span> <span class="o">!=</span> <span class="bp">False</span> <span class="ow">and</span> <span class="n">numCornersPassed</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="n">modifiedStepBack</span><span class="p">)</span>
+    <span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="n">modifiedStepBack</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cells</span>
+  <span class="k">elif</span> <span class="n">isOnCorner</span> <span class="o">!=</span> <span class="bp">False</span><span class="p">:</span>
+    <span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">modifiedStepBack</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cells</span>
+  <span class="k">elif</span> <span class="n">isAfterCorner</span> <span class="o">!=</span> <span class="bp">False</span><span class="p">:</span>    
+    <span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="n">modifiedStepBack</span><span class="p">)</span>
+    <span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="n">modifiedStepBack</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cells</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="n">modifiedStepBack</span><span class="p">)</span>
+    <span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="n">modifiedStepBack</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="n">modifiedStepBack</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cells</span>
+  <span class="k">return</span> <span class="p">[]</span>
+
+<span class="k">def</span> <span class="nf">buildList</span><span class="p">(</span><span class="n">toNum</span><span class="p">):</span>
+    <span class="n">myList</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">25</span><span class="p">]</span>
+    <span class="n">hasPrinted</span> <span class="o">=</span> <span class="bp">False</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">65</span><span class="p">):</span>
+      <span class="n">cells</span> <span class="o">=</span> <span class="n">getCellsTouched</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+      <span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">cells</span><span class="p">:</span>
+        <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="n">myList</span><span class="p">[</span><span class="n">cell</span><span class="p">]</span>
+      <span class="k">if</span> <span class="nb">sum</span> <span class="o">&gt;</span> <span class="mi">347991</span> <span class="ow">and</span> <span class="n">hasPrinted</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+        <span class="n">hasPrinted</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">print</span> <span class="n">i</span>
+      <span class="n">myList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">myList</span>
+
+<span class="k">assert</span> <span class="n">stepBackSize</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+<span class="k">assert</span> <span class="n">stepBackSize</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="mi">9</span>
+<span class="k">assert</span> <span class="n">stepBackSize</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="o">==</span> <span class="mi">17</span>
+<span class="k">assert</span> <span class="n">stepBackSize</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span> <span class="o">==</span> <span class="mi">25</span>
+
+<span class="k">assert</span> <span class="n">firstNumberForSquare</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+<span class="k">assert</span> <span class="n">firstNumberForSquare</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span>
+
+<span class="k">assert</span> <span class="n">cornersPassed</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="k">assert</span> <span class="n">cornersPassed</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+<span class="k">assert</span> <span class="n">cornersPassed</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+
+<span class="k">assert</span> <span class="n">isCorner</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span>
+<span class="k">assert</span> <span class="n">isCorner</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+<span class="k">assert</span> <span class="n">isCorner</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span>
+
+<span class="c1"># First Cells</span>
+<span class="k">assert</span> <span class="n">getCellsTouched</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="k">assert</span> <span class="n">getCellsTouched</span><span class="p">(</span><span class="mi">26</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="c1"># Second Cells</span>
+<span class="k">assert</span> <span class="n">getCellsTouched</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="k">assert</span> <span class="n">getCellsTouched</span><span class="p">(</span><span class="mi">27</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">26</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>
+
+<span class="c1"># Before Corner</span>
+<span class="k">assert</span> <span class="n">getCellsTouched</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="k">assert</span> <span class="n">getCellsTouched</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">29</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
+
+<span class="c1"># On Corner</span>
+<span class="k">assert</span> <span class="n">getCellsTouched</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="k">assert</span> <span class="n">getCellsTouched</span><span class="p">(</span><span class="mi">31</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">13</span><span class="p">]</span>
+
+<span class="c1"># Before Last Corner</span>
+<span class="k">assert</span> <span class="n">getCellsTouched</span><span class="p">(</span><span class="mi">24</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">23</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+<span class="k">assert</span> <span class="n">getCellsTouched</span><span class="p">(</span><span class="mi">48</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">47</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">24</span><span class="p">]</span>
+
+<span class="c1"># Last Corner</span>
+<span class="k">assert</span> <span class="n">getCellsTouched</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">24</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+<span class="k">assert</span> <span class="n">getCellsTouched</span><span class="p">(</span><span class="mi">49</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">48</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">25</span><span class="p">]</span>
+
+<span class="c1"># After Corner</span>
+<span class="k">assert</span> <span class="n">getCellsTouched</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">13</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="k">assert</span> <span class="n">getCellsTouched</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">]</span>
+
+<span class="c1"># Normal Numbers</span>
+<span class="k">assert</span> <span class="n">getCellsTouched</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">22</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+
+
+<span class="n">builtList</span> <span class="o">=</span> <span class="n">buildList</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">builtList</span><span class="p">[</span><span class="mi">63</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>63
+349975
 </pre>
 </div>
 </div>

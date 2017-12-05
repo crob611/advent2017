@@ -11769,7 +11769,7 @@ div#notebook {
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">Input</span><span class="p">(</span><span class="n">day</span><span class="p">):</span>
@@ -11811,7 +11811,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">parseDay1</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
@@ -11892,7 +11892,7 @@ Now, instead of considering the next digit, it wants you to consider the digit h
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">parseDay1</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
@@ -11987,7 +11987,7 @@ In this example, the spreadsheet's checksum would be 8 + 4 + 6 = 18.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">parseDay2</span><span class="p">(</span><span class="n">rawOpenFile</span><span class="p">):</span>
@@ -12062,7 +12062,7 @@ In this example, the spreadsheet's checksum would be 8 + 4 + 6 = 18.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">findRowChecksumValue</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
@@ -12141,7 +12141,7 @@ Square 5 has 32 (9x9) for 81 total numbers</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
@@ -12243,7 +12243,7 @@ the 5x5 ring is the 3rd odd and takes a step back of 9</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[82]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">stepBackSize</span><span class="p">(</span><span class="n">ringDimension</span><span class="p">):</span>
@@ -12400,6 +12400,154 @@ the 5x5 ring is the 3rd odd and takes a step back of 9</p>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>63
 349975
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Day-4">Day 4<a class="anchor-link" href="#Day-4">&#182;</a></h1><p>this is just find dupes in a list.  Should be easy to make a list and then dedupe it.<br>
+Part 2 is nearly identical, just have to sort the words before deduping</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">parseDay4</span><span class="p">(</span><span class="n">rawOpenFile</span><span class="p">):</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">rawOpenFile</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">lines</span>
+
+<span class="k">def</span> <span class="nf">sortAndReturn</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+    <span class="n">l</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">l</span>
+
+<span class="k">def</span> <span class="nf">sortPassPhrases</span><span class="p">(</span><span class="n">phraseList</span><span class="p">):</span>
+    <span class="nb">sorted</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sortAndReturn</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">word</span><span class="p">)))</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">phraseList</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">sorted</span>
+
+<span class="n">phrases</span> <span class="o">=</span> <span class="n">parseDay4</span><span class="p">(</span><span class="n">Input</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">valid</span> <span class="o">=</span> <span class="p">[</span><span class="n">phrase</span> <span class="k">for</span> <span class="n">phrase</span> <span class="ow">in</span> <span class="n">phrases</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">phrase</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">phrase</span><span class="p">))]</span>
+<span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">valid</span><span class="p">)</span>
+
+<span class="n">sortedPhrases</span> <span class="o">=</span> <span class="p">[</span><span class="n">sortPassPhrases</span><span class="p">(</span><span class="n">phrase</span><span class="p">)</span> <span class="k">for</span> <span class="n">phrase</span> <span class="ow">in</span> <span class="n">phrases</span><span class="p">]</span>
+<span class="n">valid</span> <span class="o">=</span> <span class="p">[</span><span class="n">phrase</span> <span class="k">for</span> <span class="n">phrase</span> <span class="ow">in</span> <span class="n">sortedPhrases</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">phrase</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">phrase</span><span class="p">))]</span>
+<span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">valid</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>451
+223
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Day-5">Day 5<a class="anchor-link" href="#Day-5">&#182;</a></h1><p>Moving through a list.</p>
+<p>Should be able to convert input into a list.  Keep track of where we are and how many steps we've taken</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">parseDay5</span><span class="p">(</span><span class="n">rawOpenFile</span><span class="p">):</span>
+    <span class="n">instructions</span> <span class="o">=</span> <span class="n">rawOpenFile</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="n">instructions</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">instructions</span><span class="p">]</span>
+    <span class="n">instructions</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">instructions</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">instructions</span>
+
+<span class="k">def</span> <span class="nf">executeInstruction</span><span class="p">(</span><span class="n">instructions</span><span class="p">,</span> <span class="n">instruction</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">instruction</span> <span class="o">+</span> <span class="n">instructions</span><span class="p">[</span><span class="n">instruction</span><span class="p">]</span>
+    <span class="n">instructions</span><span class="p">[</span><span class="n">instruction</span><span class="p">]</span> <span class="o">=</span> <span class="n">instructions</span><span class="p">[</span><span class="n">instruction</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+    
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="k">def</span> <span class="nf">executePart2Instruction</span><span class="p">(</span><span class="n">instructions</span><span class="p">,</span> <span class="n">instruction</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">instruction</span> <span class="o">+</span> <span class="n">instructions</span><span class="p">[</span><span class="n">instruction</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">instructions</span><span class="p">[</span><span class="n">instruction</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">instructions</span><span class="p">[</span><span class="n">instruction</span><span class="p">]</span> <span class="o">=</span> <span class="n">instructions</span><span class="p">[</span><span class="n">instruction</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span> 
+        <span class="n">instructions</span><span class="p">[</span><span class="n">instruction</span><span class="p">]</span> <span class="o">=</span> <span class="n">instructions</span><span class="p">[</span><span class="n">instruction</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+        
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="n">instructions</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">instructions</span> <span class="o">=</span> <span class="n">parseDay5</span><span class="p">(</span><span class="n">Input</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="n">currentInstruction</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">while</span><span class="p">(</span><span class="n">currentInstruction</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">instructions</span><span class="p">)):</span>
+    <span class="n">steps</span> <span class="o">=</span> <span class="n">steps</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">currentInstruction</span> <span class="o">=</span> <span class="n">executeInstruction</span><span class="p">(</span><span class="n">instructions</span><span class="p">,</span> <span class="n">currentInstruction</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">steps</span>
+
+
+<span class="n">instructions</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">instructions</span> <span class="o">=</span> <span class="n">parseDay5</span><span class="p">(</span><span class="n">Input</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">currentInstruction</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c1">#Commenting this out because it actually take a little while to run</span>
+<span class="c1"># but the result is 27283023</span>
+<span class="c1">#while(currentInstruction &lt; len(instructions)):</span>
+<span class="c1">#    steps = steps + 1</span>
+<span class="c1">#    currentInstruction = executePart2Instruction(instructions, currentInstruction)</span>
+<span class="c1">#print steps</span>
+
+
+<span class="c1">#print parseDay5(Input(5))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>354121
 </pre>
 </div>
 </div>

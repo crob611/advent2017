@@ -12482,7 +12482,7 @@ Part 2 is nearly identical, just have to sort the words before deduping</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">parseDay5</span><span class="p">(</span><span class="n">rawOpenFile</span><span class="p">):</span>
@@ -12550,6 +12550,171 @@ Part 2 is nearly identical, just have to sort the words before deduping</p>
 <pre>354121
 </pre>
 </div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Day-6">Day 6<a class="anchor-link" href="#Day-6">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">operator</span>
+
+
+<span class="k">def</span> <span class="nf">redistribute</span><span class="p">(</span><span class="n">_banks</span><span class="p">):</span>
+    <span class="n">banks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">_banks</span><span class="p">)</span>
+    <span class="n">numBanks</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">banks</span><span class="p">)</span>
+    <span class="n">index</span><span class="p">,</span> <span class="n">amount</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">banks</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+    
+    <span class="n">banks</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">amount</span><span class="p">):</span>
+        <span class="n">banks</span><span class="p">[(</span><span class="n">index</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">%</span> <span class="n">numBanks</span><span class="p">]</span> <span class="o">=</span> <span class="n">banks</span><span class="p">[(</span><span class="n">index</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">%</span> <span class="n">numBanks</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+    
+    <span class="k">return</span> <span class="n">banks</span>
+
+<span class="nb">input</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="c1">#input = [0, 2, 7, 0]</span>
+
+<span class="n">stack</span> <span class="o">=</span> <span class="p">[</span><span class="nb">input</span><span class="p">]</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">redistribute</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+
+<span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">while</span> <span class="ow">not</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">stack</span><span class="p">:</span>
+    <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">redistribute</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+    
+<span class="k">print</span> <span class="n">count</span>
+<span class="k">print</span> <span class="n">count</span> <span class="o">-</span> <span class="n">stack</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>6681
+2392
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Day-7">Day 7<a class="anchor-link" href="#Day-7">&#182;</a></h1><p>I didn't finish building out part 2.  But the first 2 lines it prints show programs and their weights.  Finding the program and subtracting the diff in weight from it's weight gives you the answer</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">parseDay7</span><span class="p">(</span><span class="n">openFile</span><span class="p">):</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">openFile</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">lines</span>
+
+<span class="k">def</span> <span class="nf">findBase</span><span class="p">(</span><span class="n">programs</span><span class="p">):</span>
+    <span class="n">potentialBases</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">notBases</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    
+    <span class="k">for</span> <span class="n">program</span> <span class="ow">in</span> <span class="n">programs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">program</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">potentialBases</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">program</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">notBases</span> <span class="o">=</span> <span class="n">notBases</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">program</span><span class="p">[</span><span class="mi">3</span><span class="p">:])</span>
+    
+    <span class="k">return</span> <span class="n">potentialBases</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">notBases</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">findProgramWeight</span><span class="p">(</span><span class="n">_program</span><span class="p">,</span> <span class="n">programs</span><span class="p">):</span>
+    <span class="n">program</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">programs</span> <span class="k">if</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">_program</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">childprograms</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">program</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">childprograms</span> <span class="o">=</span> <span class="n">program</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+    
+    <span class="n">childweights</span> <span class="o">=</span> <span class="p">[</span><span class="n">findProgramWeight</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">programs</span><span class="p">)</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">childprograms</span><span class="p">]</span>
+    <span class="n">childweightSet</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">childweights</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">childweightSet</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>    
+        <span class="k">print</span> <span class="n">childprograms</span>
+        <span class="k">print</span> <span class="n">childweights</span>
+    
+    
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">program</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;)&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">childweights</span><span class="p">)</span>
+
+<span class="n">programs</span> <span class="o">=</span> <span class="n">parseDay7</span><span class="p">(</span><span class="n">Input</span><span class="p">(</span><span class="s1">&#39;7&#39;</span><span class="p">))</span>
+<span class="c1">#print findProgramWeight(&#39;tknk&#39;, programs)</span>
+<span class="n">findProgramWeight</span><span class="p">(</span><span class="s1">&#39;fbgguv&#39;</span><span class="p">,</span> <span class="n">programs</span><span class="p">)</span>
+<span class="c1">#print findBase(parseDay7(Input(&#39;7&#39;)))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;jopcvyb&#39;, &#39;pyoma&#39;, &#39;jdxfsa&#39;, &#39;liwlcz&#39;, &#39;cxetjr&#39;, &#39;vifbi&#39;, &#39;tlmxygb&#39;]
+[2548, 2548, 2553, 2548, 2548, 2548, 2548]
+[&#39;twbxgv&#39;, &#39;evows&#39;, &#39;xwwzp&#39;, &#39;vsfgg&#39;, &#39;zsasjr&#39;]
+[17913, 17913, 17913, 17913, 17918]
+[&#39;bkomu&#39;, &#39;tynxlau&#39;, &#39;sfruur&#39;, &#39;zxvbb&#39;, &#39;khupkt&#39;, &#39;xkntkvz&#39;]
+[89627, 89627, 89632, 89627, 89627, 89627]
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[11]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>537824</pre>
+</div>
+
 </div>
 
 </div>
